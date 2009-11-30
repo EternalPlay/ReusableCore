@@ -5,7 +5,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EternalPlay.ReusableCore", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EternalPlay.ReusableCore.Web", "EternalPlay.ReusableCore.Web\EternalPlay.ReusableCore.Web.csproj", "{278944F1-1CCC-4DD8-9041-BD124ADB39CF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{77BDEDFC-CDF4-437F-9C87-BC4D7A1508DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EternalPlay.ReusableCore.UnitTest", "EternalPlay.ReusableCore\UnitTest\EternalPlay.ReusableCore.UnitTest.csproj", "{5C4EE4C6-5E1B-4F63-AD04-76B08856DBFF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DB2AF8BE-45E9-4921-A10E-66C4F8E1D515}"
+	ProjectSection(SolutionItems) = preProject
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+		ReusableCore.vsmdi = ReusableCore.vsmdi
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = ReusableCore.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -19,8 +32,16 @@ Global
 		{278944F1-1CCC-4DD8-9041-BD124ADB39CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{278944F1-1CCC-4DD8-9041-BD124ADB39CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{278944F1-1CCC-4DD8-9041-BD124ADB39CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C4EE4C6-5E1B-4F63-AD04-76B08856DBFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C4EE4C6-5E1B-4F63-AD04-76B08856DBFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C4EE4C6-5E1B-4F63-AD04-76B08856DBFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C4EE4C6-5E1B-4F63-AD04-76B08856DBFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5C4EE4C6-5E1B-4F63-AD04-76B08856DBFF} = {77BDEDFC-CDF4-437F-9C87-BC4D7A1508DD}
+		{DB2AF8BE-45E9-4921-A10E-66C4F8E1D515} = {77BDEDFC-CDF4-437F-9C87-BC4D7A1508DD}
 	EndGlobalSection
 EndGlobal
