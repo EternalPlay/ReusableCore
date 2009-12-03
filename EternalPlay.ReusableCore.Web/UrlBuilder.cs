@@ -45,11 +45,7 @@ namespace EternalPlay.ReusableCore.Web {
         /// </summary>
 		public IDictionary<string, object> QueryString {
 			get {
-				if(_queryString == null) {
-                    _queryString = new Dictionary<string, object>();
-				}
-
-				return _queryString;
+                return _queryString ?? (_queryString = new Dictionary<string, object>());
 			}
 		}
 

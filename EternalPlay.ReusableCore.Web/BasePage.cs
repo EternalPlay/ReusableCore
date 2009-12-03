@@ -132,10 +132,7 @@ namespace EternalPlay.ReusableCore.Web {
         public ControlIdentification ControlId {
             get {
                 //NOTE:  Lazy Load
-                if (controlId == null)
-                    controlId = new ControlIdentification();
-
-                return controlId;
+                return controlId ?? (controlId = new ControlIdentification());
             }
         }
 

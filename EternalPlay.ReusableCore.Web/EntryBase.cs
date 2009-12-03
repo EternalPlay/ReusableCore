@@ -107,8 +107,7 @@ namespace EternalPlay.ReusableCore.Web {
         [Localizable(false)]
         public string AssociatedLabelId {
             get {
-                String associatedLabelId = (String)ViewState["AssociatedLabelId"];
-                return ((associatedLabelId == null)? String.Empty : associatedLabelId);
+                return (String)ViewState["AssociatedLabelId"] ?? string.Empty;
             }
             set {
                 ViewState["AssociatedLabelId"] = value;
@@ -175,8 +174,7 @@ namespace EternalPlay.ReusableCore.Web {
         [Localizable(false)]
         public string KeystrokeFilterExpression {
             get {
-                String keystrokeFilterExpression = (String)ViewState["KeystrokeFilterExpression"];
-                return ((keystrokeFilterExpression == null)? String.Empty : keystrokeFilterExpression);
+                return (String)ViewState["KeystrokeFilterExpression"] ?? string.Empty;
             }
             set {
                 ViewState["KeystrokeFilterExpression"] = value;
@@ -244,8 +242,7 @@ namespace EternalPlay.ReusableCore.Web {
         [Localizable(true)]
         public string UserFriendlyName {
             get {
-                String userFriendlyName = (String)ViewState["UserFriendlyName"];
-                return ((userFriendlyName == null)? String.Empty : userFriendlyName);
+                return (String)ViewState["UserFriendlyName"] ?? string.Empty;
             }
             set {
                 ViewState["UserFriendlyName"] = value;

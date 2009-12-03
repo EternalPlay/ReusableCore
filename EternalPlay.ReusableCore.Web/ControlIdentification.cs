@@ -61,8 +61,7 @@ namespace EternalPlay.ReusableCore.Web {
         [Localizable(false)]
         public string Namespace {
             get {
-                String groupName = (String)ViewState["Namespace"];
-                return ((groupName == null)? "ControlReference" : groupName);
+                return (String)ViewState["Namespace"] ?? "ControlReference";
             }
 
             set {
