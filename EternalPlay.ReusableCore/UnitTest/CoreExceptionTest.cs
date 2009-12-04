@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Runtime.Serialization;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace EternalPlay.ReusableCore.Web.UnitTest
 {
@@ -88,7 +90,7 @@ namespace EternalPlay.ReusableCore.Web.UnitTest
         [TestMethod()]
         public void CoreExceptionConstructorMessageInnerExceptionTest() {
             string expectedMessage = "Exception Message";
-            Exception expectedInnerException = new SystemException();
+            Exception expectedInnerException = new NotImplementedException();
             CoreException target = new CoreException(expectedMessage, expectedInnerException);
             Assert.IsNotNull(target);
 
@@ -97,6 +99,48 @@ namespace EternalPlay.ReusableCore.Web.UnitTest
 
             Exception actualInnerException = target.InnerException;
             Assert.AreEqual(expectedInnerException, actualInnerException);
+        }
+
+        /// <summary>
+        ///A test for CoreException Constructor
+        ///</summary>
+        [TestMethod()]
+        public void CoreExceptionConstructorSerializationTest() {
+            CoreException source, target;
+            source = new CoreException();
+
+            //FUTUREDEV: Set any custom data properties and verify values after deserialization
+
+            using (Stream formatStream = new MemoryStream()) {
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(formatStream, source);
+                formatStream.Position = 0; //NOTE:  Reset stream
+
+                target = (CoreException)formatter.Deserialize(formatStream);
+            }
+
+            Assert.IsNotNull(target);
+        }
+
+        /// <summary>
+        ///A test for GetObjectData
+        ///</summary>
+        [TestMethod()]
+        public void CoreExceptionGetObjectDataTest() {
+            CoreException source, target;
+            source = new CoreException();
+
+            //FUTUREDEV: Set any custom data properties and verify values after deserialization
+
+            using (Stream formatStream = new MemoryStream()) {
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(formatStream, source);
+                formatStream.Position = 0; //NOTE:  Reset stream
+
+                target = (CoreException)formatter.Deserialize(formatStream); //NOTE:  This will cause a call to GetObjectData
+            }
+
+            Assert.IsNotNull(target);
         }
     }
 }

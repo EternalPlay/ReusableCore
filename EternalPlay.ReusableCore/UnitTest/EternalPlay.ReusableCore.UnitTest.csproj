@@ -49,6 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoreExceptionTest.cs" />
     <Compile Include="DateTimeExtensionsTest.cs" />
     <Compile Include="IEnumerableExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

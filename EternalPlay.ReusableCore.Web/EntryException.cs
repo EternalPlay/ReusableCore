@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.Serialization;
 using EternalPlay.ReusableCore;
+using System.Security.Permissions;
 
 namespace EternalPlay.ReusableCore.Web {
     /// <summary>
@@ -98,6 +99,34 @@ namespace EternalPlay.ReusableCore.Web {
         /// </param>
         protected EntryException(SerializationInfo info, StreamingContext context)
             : base(info, context) {
+
+            //FUTUREDEV:  Deserialize any custom class data from the serialization stream
+
+            //if (info != null) {
+            //    this.Property = info.GetString("Property");
+            //}
+        }
+
+        /// <summary>
+        /// Gets object data for serializing the exception
+        /// </summary>
+        /// <param name="info">
+        /// The <see cref="SerializationInfo">SerializationInfo</see> that holds the serialized object data about the
+        /// exception being thrown. 
+        /// </param>
+        /// <param name="context">
+        /// The <see cref="StreamingContext">StreamingContext</see> that contains contextual information about the
+        /// source or destination.
+        /// </param>
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
+        public override void GetObjectData(SerializationInfo info, StreamingContext context) {
+            //NOTE:  Let the base exception objects serialize their data
+            base.GetObjectData(info, context);
+
+            //FUTUREDEV: Add class custom data to the serialization stream
+            //if (info != null) {
+            //    info.AddValue("Property", this.Property);
+            //}
         }
     }
 }
