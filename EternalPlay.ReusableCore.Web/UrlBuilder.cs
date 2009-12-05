@@ -52,7 +52,9 @@ namespace EternalPlay.ReusableCore.Web {
             }
 
             set {
-                if (string.Compare(value.Substring(0, 1), Constants.QueryPrefix, StringComparison.Ordinal) != 0)
+                if (string.IsNullOrEmpty(value))
+                    _query = string.Empty;
+                else if (string.Compare(value.Substring(0, 1), Constants.QueryPrefix, StringComparison.Ordinal) != 0)
                     _query = string.Concat(Constants.QueryPrefix, value);
                 else
                     _query = value;
@@ -99,6 +101,7 @@ namespace EternalPlay.ReusableCore.Web {
         /// </summary>
 		public UrlBuilder() : base() {
             this.InitializeQueryString();
+            this.Query = base.Query; //NOTE:  Use property accessor to force synchronization during initial construction
 		}
  
 		/// <summary>
@@ -107,6 +110,7 @@ namespace EternalPlay.ReusableCore.Web {
 		/// <param name="uri"></param>
         public UrlBuilder(string uri) : this(new Uri(uri)) {
             this.InitializeQueryString();
+            this.Query = base.Query; //NOTE:  Use property accessor to force synchronization during initial construction
 		}
  
 		/// <summary>
@@ -115,6 +119,7 @@ namespace EternalPlay.ReusableCore.Web {
 		/// <param name="uri"></param>
         public UrlBuilder(Uri uri) : base(uri) {
             this.InitializeQueryString();
+            this.Query = base.Query; //NOTE:  Use property accessor to force synchronization during initial construction
 		}
  
 		/// <summary>
@@ -123,6 +128,7 @@ namespace EternalPlay.ReusableCore.Web {
 		/// <param name="page"></param>
         public UrlBuilder(Page page) : this(new Uri(page.Request.Url.AbsoluteUri)) {
             this.InitializeQueryString();
+            this.Query = base.Query; //NOTE:  Use property accessor to force synchronization during initial construction
 		}
 		#endregion
 
