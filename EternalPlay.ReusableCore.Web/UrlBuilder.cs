@@ -29,6 +29,9 @@ using System.Web;
 using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.Web.UI;
+using EternalPlay.ReusableCore.Collections;
+using EternalPlay.ReusableCore.Extensions;
+using System.Linq;
 
 namespace EternalPlay.ReusableCore.Web {
     /// <summary>
@@ -37,15 +40,39 @@ namespace EternalPlay.ReusableCore.Web {
 	public class UrlBuilder : UriBuilder {
 		#region Properties
         /// <summary>
-        /// Private member for QueryString property
+        /// Private member for Query property
         /// </summary>
-        IDictionary<string, object> _queryString;
+        private string _query;
+        /// <summary>
+        /// Hides the base .Query property and re-implements it to ensure synchronization with the QueryString dictionary.
+        /// </summary>
+        public new string Query {
+            get {
+                return _query;
+            }
+
+            set {
+                if (string.Compare(value.Substring(0, 1), Constants.QueryPrefix, StringComparison.Ordinal) != 0)
+                    _query = string.Concat(Constants.QueryPrefix, value);
+                else
+                    _query = value;
+
+                this.SynchronizeQueryString();
+            }
+        }
+
+        /// <summary>
+        /// Private members for managing the QueryString property
+        /// </summary>
+        private ObservableDictionary<string, object> _queryString; //NOTE:  exposed externally to track external changes to content
+        private Dictionary<string, object> _internalQueryString;   //NOTE:  used internally for access without tracking content changes
         /// <summary>
         /// Gets the dictionary 
         /// </summary>
 		public IDictionary<string, object> QueryString {
 			get {
-                return _queryString ?? (_queryString = new Dictionary<string, object>());
+                //NOTE:  Expose the observable collection so all external changes are monitored
+                return _queryString;
 			}
 		}
 
@@ -55,13 +82,13 @@ namespace EternalPlay.ReusableCore.Web {
 		public string PageName {
 			get {
 				string path = base.Path;
-				return path.Substring(path.LastIndexOf("/", StringComparison.OrdinalIgnoreCase) + 1);
+				return path.Substring(path.LastIndexOf(Constants.PathSeparator, StringComparison.OrdinalIgnoreCase) + 1);
 			}
 
 			set {
 				string path = base.Path;
-				path = path.Substring(0, path.LastIndexOf("/", StringComparison.OrdinalIgnoreCase));
-				base.Path = string.Concat(path, "/", value);
+				path = path.Substring(0, path.LastIndexOf(Constants.PathSeparator, StringComparison.OrdinalIgnoreCase));
+				base.Path = string.Concat(path, Constants.PathSeparator, value);
 			}
 		}
 		#endregion
@@ -71,6 +98,7 @@ namespace EternalPlay.ReusableCore.Web {
         /// Constructs a default UrlBuilder
         /// </summary>
 		public UrlBuilder() : base() {
+            this.InitializeQueryString();
 		}
  
 		/// <summary>
@@ -78,7 +106,7 @@ namespace EternalPlay.ReusableCore.Web {
 		/// </summary>
 		/// <param name="uri"></param>
         public UrlBuilder(string uri) : this(new Uri(uri)) {
-			PopulateQueryString();
+            this.InitializeQueryString();
 		}
  
 		/// <summary>
@@ -86,7 +114,7 @@ namespace EternalPlay.ReusableCore.Web {
 		/// </summary>
 		/// <param name="uri"></param>
         public UrlBuilder(Uri uri) : base(uri) {
-			PopulateQueryString();
+            this.InitializeQueryString();
 		}
  
 		/// <summary>
@@ -94,18 +122,22 @@ namespace EternalPlay.ReusableCore.Web {
 		/// </summary>
 		/// <param name="page"></param>
         public UrlBuilder(Page page) : this(new Uri(page.Request.Url.AbsoluteUri)) {
-			PopulateQueryString();
+            this.InitializeQueryString();
 		}
 		#endregion
- 
-		#region Public methods
+
+        #region Event Handlers
+        private void QueryString_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+            this.SynchronizeQuery();
+        }
+        #endregion
+
+        #region Public methods
         /// <summary>
         /// Gets a string representation of the constructed Url
         /// </summary>
         /// <returns></returns>
 		public new string ToString() {
-			BuildQuery();  //NOTE:  build the query on the base UriBuilder
- 
 			return base.Uri.AbsoluteUri;
 		}
 
@@ -126,14 +158,21 @@ namespace EternalPlay.ReusableCore.Web {
   		#endregion
  
 		#region Functions
+        private void InitializeQueryString() {
+            _internalQueryString = new Dictionary<string, object>();
+            _queryString = new ObservableDictionary<string, object>(_internalQueryString);
+            _queryString.CollectionChanged += new NotifyCollectionChangedEventHandler(QueryString_CollectionChanged);
+        }
+
         /// <summary>
         /// Private method that converts the internal query string dictionary into a uri query
         /// </summary>
-        private void BuildQuery() {
-            int count = this.QueryString.Count;
+        private void SynchronizeQuery() {
+            //NOTE:  Synchronize against the internal dictionary and private query field to avoid triggering cascading synchronizations
+            int count = _internalQueryString.Count;
 
             if (count == 0) {
-                base.Query = string.Empty;
+                _query = string.Empty;
                 return;
             }
 
@@ -141,39 +180,35 @@ namespace EternalPlay.ReusableCore.Web {
             object[] values = new object[count];
             string[] pairs = new string[count];
 
-            this.QueryString.Keys.CopyTo(keys, 0);
-            this.QueryString.Values.CopyTo(values, 0);
+            _internalQueryString.Keys.CopyTo(keys, 0);
+            _internalQueryString.Values.CopyTo(values, 0);
 
             for (int i = 0; i < count; i++) {
-                pairs[i] = string.Concat(keys[i], "=", values[i].ToString());
+                pairs[i] = string.Concat(keys[i], Constants.KeyValueSeparator, values[i].ToString());
             }
 
             //NOTE:  Set the base Uri builder query
-            base.Query = string.Join("&", pairs);
+            _query = string.Concat(Constants.QueryPrefix, string.Join(Constants.PairSeparator, pairs));
         }
 
 		/// <summary>
 		/// Populates the internal dictionary from the internal uri.
 		/// </summary>
-        private void PopulateQueryString() {
-			string query = base.Query;
+        private void SynchronizeQueryString() {
+            //NOTE:  Synchronize against the internal dictionary and private query field to avoid triggering cascading synchronizations
+            _internalQueryString.Clear();
 
-            if (string.IsNullOrEmpty(query))
+            if (string.IsNullOrEmpty(_query))
                 return;
 
-            this.QueryString.Clear();
-
-			query = query.Substring(1); //remove the ?
- 
-			string[] pairs = query.Split(new char[]{'&'});
-			foreach(string rawKeyValuePair in pairs) {
+            _query.Substring(1).Split(new char[] { '&' }).ForEach(rawKeyValuePair => {
                 string[] keyValuePair = rawKeyValuePair.Split(new char[] { '=' });
 
                 string key = keyValuePair[0];
                 string value = (keyValuePair.Length > 1) ? keyValuePair[1] : string.Empty;
-                
-                this.QueryString.Add(new KeyValuePair<string, object>(key, value));
-			}
+
+                _internalQueryString.Add(key, value);
+            });
 		}
 
         /// <summary>
@@ -185,5 +220,29 @@ namespace EternalPlay.ReusableCore.Web {
             HttpContext.Current.Response.Redirect(uri, endResponse);
         }
 		#endregion
-	}
+
+        #region Nested Types
+        private static class Constants {
+            /// <summary>
+            /// Separator between a key and value in a key value pair.
+            /// </summary>
+            public const string KeyValueSeparator = "=";
+
+            /// <summary>
+            /// Separator between key value pairs.
+            /// </summary>
+            public const string PairSeparator = "&";
+
+            /// <summary>
+            /// Path separator in a URI.
+            /// </summary>
+            public const string PathSeparator = "/";
+
+            /// <summary>
+            /// Prefix for strings representing queries.
+            /// </summary>
+            public const string QueryPrefix = "?";
+        }
+        #endregion
+    }
 }
