@@ -23,11 +23,8 @@ A "contributor" is any person that distributes its contribution under this licen
 (F) The software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a particular purpose and non-infringement.
 */
 #endregion
-                   
-                
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Web.UI;
 
 [assembly: WebResource("EternalPlay.ReusableCore.Web.ContentPopup.js", "text/javascript")]
@@ -43,7 +40,7 @@ namespace EternalPlay.ReusableCore.Web {
     public static class ControlScriptResources {
 
         #region Constants
-        
+
         private const string webResourceName_CrossBrowserFunctions = "EternalPlay.ReusableCore.Web.JavaScript.CrossBrowserFunctions.js";
         private const string webResourceName_ContentPopup = "EternalPlay.ReusableCore.Web.JavaScript.ContentPopup.js";
         private const string webResourceName_Expander = "EternalPlay.ReusableCore.Web.JavaScript.Expander.js";
@@ -62,7 +59,7 @@ namespace EternalPlay.ReusableCore.Web {
 
             //NOTE:  Validate arguments of public methods 
             if (control == null)
-                throw new ArgumentNullException("control");                    
+                throw new ArgumentNullException("control");
 
             //NOTE:  Resolve the resource item into the resource name
             string resourceName = String.Empty;

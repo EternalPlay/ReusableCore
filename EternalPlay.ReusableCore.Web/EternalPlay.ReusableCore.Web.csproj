@@ -115,8 +115,12 @@
     <None Include="EternalPlay.Public.snk" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="App_GlobalResources\ControlResources.resx" />
-    <EmbeddedResource Include="App_GlobalResources\WebExceptionResources.resx" />
+    <EmbeddedResource Include="App_GlobalResources\ControlResources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="App_GlobalResources\WebExceptionResources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="JavaScript\ContentPopup.js" />

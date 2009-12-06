@@ -23,11 +23,8 @@ A "contributor" is any person that distributes its contribution under this licen
 (F) The software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a particular purpose and non-infringement.
 */
 #endregion
-                   
-                
+
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
 
@@ -98,7 +95,7 @@ namespace EternalPlay.ReusableCore {
         /// </param>
         protected CoreException(SerializationInfo info, StreamingContext context)
             : base(info, context) {
-            
+
             //FUTUREDEV:  Deserialize any custom class data from the serialization stream
 
             //if (info != null) {
@@ -117,7 +114,7 @@ namespace EternalPlay.ReusableCore {
         /// The <see cref="StreamingContext">StreamingContext</see> that contains contextual information about the
         /// source or destination.
         /// </param>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags=SecurityPermissionFlag.SerializationFormatter)]
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context) {
             //NOTE:  Let the base exception objects serialize their data
             base.GetObjectData(info, context);

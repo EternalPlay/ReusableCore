@@ -23,17 +23,13 @@ A "contributor" is any person that distributes its contribution under this licen
 (F) The software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a particular purpose and non-infringement.
 */
 #endregion
-                   
-                
+
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Text;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.UI.HtmlControls;
-using System.Globalization;
 
 namespace EternalPlay.ReusableCore.Web {
 
@@ -124,7 +120,7 @@ namespace EternalPlay.ReusableCore.Web {
         public ValidatorDisplay Display {
             get {
                 Object display = ViewState["Display"];
-                return ((display == null)? ValidatorDisplay.Static : (ValidatorDisplay)display);
+                return ((display == null) ? ValidatorDisplay.Static : (ValidatorDisplay)display);
             }
             set {
                 ViewState["Display"] = value;
@@ -141,7 +137,7 @@ namespace EternalPlay.ReusableCore.Web {
         public bool EnableAutoSelect {
             get {
                 Object enableAutoSelect = ViewState["EnableAutoSelect"];
-                return ((enableAutoSelect == null)? false : (bool)enableAutoSelect);
+                return ((enableAutoSelect == null) ? false : (bool)enableAutoSelect);
             }
             set {
                 ViewState["EnableAutoSelect"] = value;
@@ -158,7 +154,7 @@ namespace EternalPlay.ReusableCore.Web {
         public bool EnableKeystrokeFiltering {
             get {
                 Object enableKeystrokeFiltering = ViewState["EnableKeystrokeFiltering"];
-                return ((enableKeystrokeFiltering == null)? false : (bool)enableKeystrokeFiltering);
+                return ((enableKeystrokeFiltering == null) ? false : (bool)enableKeystrokeFiltering);
             }
             set {
                 ViewState["EnableKeystrokeFiltering"] = value;
@@ -191,7 +187,7 @@ namespace EternalPlay.ReusableCore.Web {
         public ErrorTextLocation ErrorTextPlacement {
             get {
                 Object errorTextPlacement = ViewState["ErrorTextPlacement"];
-                return ((errorTextPlacement == null)? ErrorTextLocation.AdjacentToTextBox : (ErrorTextLocation)errorTextPlacement);
+                return ((errorTextPlacement == null) ? ErrorTextLocation.AdjacentToTextBox : (ErrorTextLocation)errorTextPlacement);
             }
             set {
                 ViewState["ErrorTextPlacement"] = value;
@@ -212,7 +208,7 @@ namespace EternalPlay.ReusableCore.Web {
         public bool ReadOnly {
             get {
                 Object readOnly = ViewState["ReadOnly"];
-                return ((readOnly == null)? false : (bool)readOnly);
+                return ((readOnly == null) ? false : (bool)readOnly);
             }
             set {
                 ViewState["ReadOnly"] = value;
@@ -263,8 +259,8 @@ namespace EternalPlay.ReusableCore.Web {
             }
             set {
                 EnsureChildControls();
-                this.PatternValidator.ValidationGroup = 
-                    this.RangeValidator.ValidationGroup = 
+                this.PatternValidator.ValidationGroup =
+                    this.RangeValidator.ValidationGroup =
                     this.RequiredValidator.ValidationGroup = value;
             }
         }
@@ -327,7 +323,7 @@ namespace EternalPlay.ReusableCore.Web {
             }
             set {
                 EnsureChildControls();
-                _patternValidator.ErrorMessage = 
+                _patternValidator.ErrorMessage =
                     _patternValidator.ToolTip = value;
             }
         }
@@ -531,7 +527,7 @@ namespace EternalPlay.ReusableCore.Web {
             }
             set {
                 EnsureChildControls();
-                _requiredValidator.ErrorMessage = 
+                _requiredValidator.ErrorMessage =
                     _requiredValidator.ToolTip = value;
             }
         }
@@ -806,8 +802,8 @@ namespace EternalPlay.ReusableCore.Web {
         /// Associate child validation controls with the child textbox control
         /// </summary>
         protected virtual void AssociateChildControls() {
-            this.PatternValidator.ControlToValidate = 
-                this.RangeValidator.ControlToValidate = 
+            this.PatternValidator.ControlToValidate =
+                this.RangeValidator.ControlToValidate =
                 this.RequiredValidator.ControlToValidate = this.TextBox.ID;
         }
 
@@ -900,8 +896,8 @@ namespace EternalPlay.ReusableCore.Web {
             string name = this.UserFriendlyName;
 
             //NOTE:  1. Set display value uniformly on all validators
-            this.PatternValidator.Display = 
-                    this.RangeValidator.Display = 
+            this.PatternValidator.Display =
+                    this.RangeValidator.Display =
                     this.RequiredValidator.Display = this.Display;
 
             //NOTE:  2. Enable Range validator if Min and Max are both present
@@ -1000,8 +996,8 @@ namespace EternalPlay.ReusableCore.Web {
         /// </summary>
         private void ReadOnlyInitialization() {
             this.TextBox.ReadOnly = true;
-            this.PatternValidator.Visible = 
-                    this.RangeValidator.Visible = 
+            this.PatternValidator.Visible =
+                    this.RangeValidator.Visible =
                     this.RequiredValidator.Visible = false;
         }
 

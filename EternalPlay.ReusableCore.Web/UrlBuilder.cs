@@ -25,20 +25,19 @@ A "contributor" is any person that distributes its contribution under this licen
 #endregion
 
 using System;
-using System.Web;
-using System.Collections.Specialized;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Web;
 using System.Web.UI;
 using EternalPlay.ReusableCore.Collections;
 using EternalPlay.ReusableCore.Extensions;
-using System.Linq;
 
 namespace EternalPlay.ReusableCore.Web {
     /// <summary>
     /// Extension of the UriBuilder class that helps manage querystring key value pairs
     /// </summary>
-	public class UrlBuilder : UriBuilder {
-		#region Properties
+    public class UrlBuilder : UriBuilder {
+        #region Properties
         /// <summary>
         /// Private member for Query property
         /// </summary>
@@ -66,66 +65,70 @@ namespace EternalPlay.ReusableCore.Web {
         /// <summary>
         /// Gets the dictionary 
         /// </summary>
-		public IDictionary<string, object> QueryString {
-			get {
+        public IDictionary<string, object> QueryString {
+            get {
                 //NOTE:  Expose the observable collection so all external changes are monitored
                 return _queryString;
-			}
-		}
+            }
+        }
 
         /// <summary>
         /// Gets and sets the page name for the Url
         /// </summary>
-		public string PageName {
-			get {
-				string path = base.Path;
-				return path.Substring(path.LastIndexOf(Constants.PathSeparator, StringComparison.OrdinalIgnoreCase) + 1);
-			}
+        public string PageName {
+            get {
+                string path = base.Path;
+                return path.Substring(path.LastIndexOf(Constants.PathSeparator, StringComparison.OrdinalIgnoreCase) + 1);
+            }
 
-			set {
-				string path = base.Path;
-				path = path.Substring(0, path.LastIndexOf(Constants.PathSeparator, StringComparison.OrdinalIgnoreCase));
-				base.Path = string.Concat(path, Constants.PathSeparator, value);
-			}
-		}
-		#endregion
- 
-		#region Constructor overloads
+            set {
+                string path = base.Path;
+                path = path.Substring(0, path.LastIndexOf(Constants.PathSeparator, StringComparison.OrdinalIgnoreCase));
+                base.Path = string.Concat(path, Constants.PathSeparator, value);
+            }
+        }
+        #endregion
+
+        #region Constructor overloads
         /// <summary>
         /// Constructs a default UrlBuilder
         /// </summary>
-		public UrlBuilder() : base() {
+        public UrlBuilder()
+            : base() {
             this.InitializeQueryString();
             this.Query = base.Query; //NOTE:  Use property accessor to force synchronization during initial construction
-		}
- 
-		/// <summary>
-		/// Constructs a UrlBuilder from the given URI string
-		/// </summary>
-		/// <param name="uri"></param>
-        public UrlBuilder(string uri) : this(new Uri(uri)) {
+        }
+
+        /// <summary>
+        /// Constructs a UrlBuilder from the given URI string
+        /// </summary>
+        /// <param name="uri"></param>
+        public UrlBuilder(string uri)
+            : this(new Uri(uri)) {
             this.InitializeQueryString();
             this.Query = base.Query; //NOTE:  Use property accessor to force synchronization during initial construction
-		}
- 
-		/// <summary>
-		/// Constructs a UrlBuilder from the given Uri object
-		/// </summary>
-		/// <param name="uri"></param>
-        public UrlBuilder(Uri uri) : base(uri) {
+        }
+
+        /// <summary>
+        /// Constructs a UrlBuilder from the given Uri object
+        /// </summary>
+        /// <param name="uri"></param>
+        public UrlBuilder(Uri uri)
+            : base(uri) {
             this.InitializeQueryString();
             this.Query = base.Query; //NOTE:  Use property accessor to force synchronization during initial construction
-		}
- 
-		/// <summary>
-		/// Constructs a UrlBuilder from a page object
-		/// </summary>
-		/// <param name="page"></param>
-        public UrlBuilder(Page page) : this(new Uri(page.Request.Url.AbsoluteUri)) {
+        }
+
+        /// <summary>
+        /// Constructs a UrlBuilder from a page object
+        /// </summary>
+        /// <param name="page"></param>
+        public UrlBuilder(Page page)
+            : this(new Uri(page.Request.Url.AbsoluteUri)) {
             this.InitializeQueryString();
             this.Query = base.Query; //NOTE:  Use property accessor to force synchronization during initial construction
-		}
-		#endregion
+        }
+        #endregion
 
         #region Event Handlers
         private void QueryString_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
@@ -138,27 +141,27 @@ namespace EternalPlay.ReusableCore.Web {
         /// Gets a string representation of the constructed Url
         /// </summary>
         /// <returns></returns>
-		public new string ToString() {
-			return base.Uri.AbsoluteUri;
-		}
+        public new string ToString() {
+            return base.Uri.AbsoluteUri;
+        }
 
         /// <summary>
         /// Navigates to the constructed Url, ending the current response stream
         /// </summary>
-		public void Navigate() {
+        public void Navigate() {
             Redirect(true);
-		}
- 
+        }
+
         /// <summary>
         /// Navigates to the constructed Url, optionally ending the current response stream
         /// </summary>
         /// <param name="endResponse">Boolean indicating of the current response stream should be terminated</param>
-		public void Navigate(bool endResponse) {
+        public void Navigate(bool endResponse) {
             Redirect(endResponse);
-		}
-  		#endregion
- 
-		#region Functions
+        }
+        #endregion
+
+        #region Functions
         private static string EnsureNoQueryPrefix(string query) {
             if (string.IsNullOrEmpty(query))
                 return query;
@@ -213,9 +216,9 @@ namespace EternalPlay.ReusableCore.Web {
             base.Query = EnsureNoQueryPrefix(_query);
         }
 
-		/// <summary>
-		/// Populates the internal dictionary from the internal uri.
-		/// </summary>
+        /// <summary>
+        /// Populates the internal dictionary from the internal uri.
+        /// </summary>
         private void SynchronizeQueryString() {
             //NOTE:  Synchronize against the internal dictionary and private query field to avoid triggering cascading synchronizations
             _internalQueryString.Clear();
@@ -231,7 +234,7 @@ namespace EternalPlay.ReusableCore.Web {
 
                 _internalQueryString.Add(key, value);
             });
-		}
+        }
 
         /// <summary>
         /// Reusable function for executing a response redirect to the internal uri
@@ -241,7 +244,7 @@ namespace EternalPlay.ReusableCore.Web {
             string uri = this.ToString();
             HttpContext.Current.Response.Redirect(uri, endResponse);
         }
-		#endregion
+        #endregion
 
         #region Nested Types
         private static class Constants {

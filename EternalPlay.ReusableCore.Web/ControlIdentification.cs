@@ -23,14 +23,12 @@ A "contributor" is any person that distributes its contribution under this licen
 (F) The software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a particular purpose and non-infringement.
 */
 #endregion
-                   
-                
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Text;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -91,7 +89,7 @@ namespace EternalPlay.ReusableCore.Web {
 
             //NOTE:  Validate arguments of public methods 
             if (controlReference == null)
-                throw new ArgumentNullException("controlReference");  
+                throw new ArgumentNullException("controlReference");
 
             this.Register(controlReference.ID, controlReference.ClientID);
         }
@@ -105,8 +103,8 @@ namespace EternalPlay.ReusableCore.Web {
 
             //NOTE:  Validate arguments of public methods 
             if (entryControl == null)
-                throw new ArgumentNullException("entryControl");                     
-                
+                throw new ArgumentNullException("entryControl");
+
             this.Register(entryControl.ID, entryControl.TextBoxClientId);
         }
 
@@ -167,7 +165,7 @@ namespace EternalPlay.ReusableCore.Web {
         /// Builds the javascript declaring and instantiating the control identification references
         /// </summary>
         /// <returns>JavaScript string</returns>
-        private string BuildControlIdentificationJavaScript(){
+        private string BuildControlIdentificationJavaScript() {
             StringBuilder scriptBuilder = new StringBuilder();
 
             string baseNamespaceInit = "if (typeof({0}) == 'undefined') {0} = new Object();";
