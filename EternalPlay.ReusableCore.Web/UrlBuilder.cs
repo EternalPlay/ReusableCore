@@ -159,7 +159,7 @@ namespace EternalPlay.ReusableCore.Web {
   		#endregion
  
 		#region Functions
-        private string EnsureNoQueryPrefix(string query) {
+        private static string EnsureNoQueryPrefix(string query) {
             if (string.IsNullOrEmpty(query))
                 return query;
 
@@ -169,7 +169,7 @@ namespace EternalPlay.ReusableCore.Web {
             return query;
         }
 
-        private string EnsureQueryPrefix(string query) {
+        private static string EnsureQueryPrefix(string query) {
             if (string.IsNullOrEmpty(query))
                 return query;
 
