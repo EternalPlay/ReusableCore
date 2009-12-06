@@ -52,14 +52,9 @@ namespace EternalPlay.ReusableCore.Web {
             }
 
             set {
-                if (string.IsNullOrEmpty(value))
-                    _query = string.Empty;
-                else if (string.Compare(value.Substring(0, 1), Constants.QueryPrefix, StringComparison.Ordinal) != 0)
-                    _query = string.Concat(Constants.QueryPrefix, value);
-                else
-                    _query = value;
-
-                this.SynchronizeQueryString();
+                base.Query = EnsureNoQueryPrefix(value); //NOTE:  Use the base class for basic parsing
+                _query = EnsureQueryPrefix(value);       //NOTE:  Sync with base class
+                this.SynchronizeQueryString();           //NOTE:  Sync with query string
             }
         }
 
@@ -164,6 +159,26 @@ namespace EternalPlay.ReusableCore.Web {
   		#endregion
  
 		#region Functions
+        private string EnsureNoQueryPrefix(string query) {
+            if (string.IsNullOrEmpty(query))
+                return query;
+
+            if (query.Substring(0, 1) == Constants.QueryPrefix)
+                return query.Substring(1);
+
+            return query;
+        }
+
+        private string EnsureQueryPrefix(string query) {
+            if (string.IsNullOrEmpty(query))
+                return query;
+
+            if (query.Substring(0, 1) == Constants.QueryPrefix)
+                return query;
+
+            return string.Concat(Constants.QueryPrefix, query);
+        }
+
         private void InitializeQueryString() {
             _internalQueryString = new Dictionary<string, object>();
             _queryString = new ObservableDictionary<string, object>(_internalQueryString);
@@ -178,7 +193,7 @@ namespace EternalPlay.ReusableCore.Web {
             int count = _internalQueryString.Count;
 
             if (count == 0) {
-                _query = string.Empty;
+                _query = base.Query = string.Empty;
                 return;
             }
 
@@ -194,7 +209,8 @@ namespace EternalPlay.ReusableCore.Web {
             }
 
             //NOTE:  Set the base Uri builder query
-            _query = string.Concat(Constants.QueryPrefix, string.Join(Constants.PairSeparator, pairs));
+            _query = EnsureQueryPrefix(string.Join(Constants.PairSeparator, pairs));
+            base.Query = EnsureNoQueryPrefix(_query);
         }
 
 		/// <summary>
@@ -245,7 +261,7 @@ namespace EternalPlay.ReusableCore.Web {
             public const string PathSeparator = "/";
 
             /// <summary>
-            /// Prefix for strings representing queries.
+            /// Query prefix character
             /// </summary>
             public const string QueryPrefix = "?";
         }
