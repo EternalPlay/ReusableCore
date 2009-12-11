@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<userConfig configVersion="1.0">
+    <applictation applicationName="Core Unit Test" version="1.0.0.0" />
+    <item key="item1">value1</item>
+    <item key="item2">value1</item>
+    <item key="item3">value1</item>
+    <list key="list1">
+        <item>listvalue1</item>
+        <item>listvalue2</item>
+        <item>listvalue3</item>
+    </list>
+</userConfig>

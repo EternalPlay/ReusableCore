@@ -2,6 +2,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System;
+using System.Collections.Generic;
+using System.Xml.Linq;
+
 namespace EternalPlay.ReusableCore.UnitTest
 {
     
@@ -134,6 +137,61 @@ namespace EternalPlay.ReusableCore.UnitTest
             string expected = Path.Combine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), applicationName), string.Format("{0}.{1}.config", applicationName, version));
             string actual = UserConfig_Accessor.CreateConfigurationFilePath(applicationName, version);
             Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for LoadConfiguration using a valid sample xml file
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("EternalPlay.ReusableCore.dll")]
+        public void UserConfigLoadConfigurationTest() {
+            string filePath = "SampleConfig.xml";
+            IDictionary<string, string> items = new Dictionary<string, string>();
+            IDictionary<string, IList<string>> lists = new Dictionary<string, IList<string>>();
+            UserConfig_Accessor.LoadConfiguration(filePath, items, lists);
+        }
+
+        /// <summary>
+        ///A test for LoadConfiguration using valid xml that is not configuration data
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("EternalPlay.ReusableCore.dll")]
+        public void UserConfigLoadConfigurationNonConfigTest() {
+            string filePath = "SampleXmlNonConfig.xml";
+            IDictionary<string, string> items = new Dictionary<string, string>();
+            IDictionary<string, IList<string>> lists = new Dictionary<string, IList<string>>();
+            UserConfig_Accessor.LoadConfiguration(filePath, items, lists);
+
+            Assert.AreEqual(0, items.Count);
+            Assert.AreEqual(0, lists.Count);
+        }
+
+        /// <summary>
+        ///A test for LoadConfiguration using valid xml that is not configuration data
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("EternalPlay.ReusableCore.dll")]
+        public void UserConfigLoadConfigurationNonXmlTest() {
+            string filePath = "SampleConfigNonXml.xml";
+            IDictionary<string, string> items = new Dictionary<string, string>();
+            IDictionary<string, IList<string>> lists = new Dictionary<string, IList<string>>();
+            UserConfig_Accessor.LoadConfiguration(filePath, items, lists);
+
+            Assert.AreEqual(0, items.Count);
+            Assert.AreEqual(0, lists.Count);
+        }
+
+        /// <summary>
+        ///A test for LoadConfigurationXml
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("EternalPlay.ReusableCore.dll")]
+        public void UserConfigLoadConfigurationXmlTest() {
+            XDocument configurationXml = null; // TODO: Initialize to an appropriate value
+            IDictionary<string, string> items = null; // TODO: Initialize to an appropriate value
+            IDictionary<string, IList<string>> lists = null; // TODO: Initialize to an appropriate value
+            UserConfig_Accessor.LoadConfigurationXml(configurationXml, items, lists);
+            Assert.Inconclusive("A method that does not return a value cannot be verified.");
         }
         #endregion
     }

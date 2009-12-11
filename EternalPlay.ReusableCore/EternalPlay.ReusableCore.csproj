@@ -120,7 +120,6 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserConfig.cs" />
-    <Compile Include="UserConfigSection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EternalPlay.Public.snk" />
