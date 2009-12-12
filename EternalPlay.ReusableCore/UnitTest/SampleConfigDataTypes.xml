@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<userConfig configVersion="1.0">
+    <applictation applicationName="Core Unit Test" version="1.0.0.0" />
+    <item key="boolTrue">True</item>
+    <item key="boolFalse">False</item>
+    <item key="int">32</item>
+    <item key="double">34.123</item>
+</userConfig>

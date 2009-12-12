@@ -11,6 +11,7 @@
     <DeploymentItem filename="EternalPlay.ReusableCore\UnitTest\SampleConfigNonXml.xml" />
     <DeploymentItem filename="EternalPlay.ReusableCore\UnitTest\SampleConfig.xml" />
     <DeploymentItem filename="EternalPlay.ReusableCore\UnitTest\SampleXmlNonConfig.xml" />
+    <DeploymentItem filename="EternalPlay.ReusableCore\UnitTest\SampleConfigDataTypes.xml" />
   </Deployment>
   <TestTypeSpecific>
     <WebTestRunConfiguration testTypeId="4e7599fa-5ecb-43e9-a887-cd63cf72d207">

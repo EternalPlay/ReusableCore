@@ -42,9 +42,6 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -63,19 +60,21 @@
     <Compile Include="UserConfigTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EternalPlay.ReusableCore.csproj">
-      <Project>{4AA44811-456E-40A7-B137-A39056134CE0}</Project>
-      <Name>EternalPlay.ReusableCore</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="app.config" />
     <None Include="EternalPlay.Public.snk" />
     <Shadow Include="Test References\EternalPlay.ReusableCore.accessor" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="SampleConfig.xml" />
+    <Content Include="SampleConfigDataTypes.xml" />
     <Content Include="SampleConfigNonXml.xml" />
     <Content Include="SampleXmlNonConfig.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EternalPlay.ReusableCore.csproj">
+      <Project>{4AA44811-456E-40A7-B137-A39056134CE0}</Project>
+      <Name>EternalPlay.ReusableCore</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

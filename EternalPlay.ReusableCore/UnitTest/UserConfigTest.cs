@@ -167,6 +167,28 @@ namespace EternalPlay.ReusableCore.UnitTest {
         ///</summary>
         [TestMethod()]
         [DeploymentItem("EternalPlay.ReusableCore.dll")]
+        public void UserConfigGetItemDataTypesTest() {
+            string filePath = "SampleConfigDataTypes.xml";
+            string applicationName = "Core Unit Test";
+            string version = "1.0.0.0";
+
+            UserConfig_Accessor target = new UserConfig_Accessor(applicationName, version);
+            UserConfig_Accessor.LoadConfiguration(filePath, target._items = new Dictionary<string, string>(), target._lists = new Dictionary<string, IList<string>>());
+
+            string key = "boolFalse";
+            string defaultValue = "True";
+            bool actual, expected;
+            expected = false;
+            actual = bool.Parse(target.GetItem(key, defaultValue));
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for GetItem
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("EternalPlay.ReusableCore.dll")]
         public void UserConfigGetItemDefaultTest() {
             string filePath = "SampleConfig.xml";
             string applicationName = "Core Unit Test";
@@ -246,7 +268,7 @@ namespace EternalPlay.ReusableCore.UnitTest {
         ///A test for SetList
         ///</summary>
         [TestMethod()]
-        public void UserConfigSetListTest() {
+        public void UserConfigSetListNewTest() {
             string applicationName = "Core Unit Test";
             string version = "1.0.0.0";
             UserConfig target = new UserConfig(applicationName, version);
@@ -261,10 +283,32 @@ namespace EternalPlay.ReusableCore.UnitTest {
         }
 
         /// <summary>
+        ///A test for SetList
+        ///</summary>
+        [TestMethod()]
+        public void UserConfigSetListExistingTest() {
+            string applicationName = "Core Unit Test";
+            string version = "1.0.0.0";
+            UserConfig target = new UserConfig(applicationName, version);
+            string key = "itemkey";
+            IList<string> list = new List<string>();
+            target.SetList(key, list);
+            
+            //NOTE:  Update list
+            IList<string> newList = new List<string>();
+            target.SetList(key, newList);
+
+            IList<string> expected = newList;
+            IList<string> actual = target.GetList(key, null);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
         ///A test for SetItem
         ///</summary>
         [TestMethod()]
-        public void UserConfigSetItemTest() {
+        public void UserConfigSetItemNewTest() {
             string applicationName = "Core Unit Test";
             string version = "1.0.0.0";
             UserConfig target = new UserConfig(applicationName, version);
@@ -273,6 +317,28 @@ namespace EternalPlay.ReusableCore.UnitTest {
             target.SetItem(key, item);
 
             string expected = item;
+            string actual = target.GetItem(key, string.Empty);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for SetItem
+        ///</summary>
+        [TestMethod()]
+        public void UserConfigSetItemExistingTest() {
+            string applicationName = "Core Unit Test";
+            string version = "1.0.0.0";
+            UserConfig target = new UserConfig(applicationName, version);
+            string key = "itemkey";
+            string item = "itemValue";
+            target.SetItem(key, item);
+
+            //NOTE:  Set a new value for existing key
+            string newItem = "newItemValue";
+            target.SetItem(key, newItem);
+
+            string expected = newItem;
             string actual = target.GetItem(key, string.Empty);
 
             Assert.AreEqual(expected, actual);

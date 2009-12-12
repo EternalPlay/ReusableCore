@@ -101,7 +101,10 @@ namespace EternalPlay.ReusableCore {
         /// <param name="key">Key for the configured item.</param>
         /// <param name="value">Value for the configured item</param>
         public void SetItem(string key, object value) {
-            _items.Add(key, value.ToString());
+            if (_items.ContainsKey(key))
+                _items[key] = value.ToString();
+            else
+                _items.Add(key, value.ToString());
         }
 
         /// <summary>
@@ -110,7 +113,10 @@ namespace EternalPlay.ReusableCore {
         /// <param name="key">Key for the configured list.</param>
         /// <param name="list">List of strings</param>
         public void SetList(string key, IList<string> list) {
-            _lists.Add(key, list);
+            if (_lists.ContainsKey(key))
+                _lists[key] = list;
+            else
+                _lists.Add(key, list);
         }
         #endregion 
 
